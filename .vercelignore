@@ -1,0 +1,25 @@
+# Vercel upload — only the static planner (not SFDC force-app, conversations, etc.)
+force-app/
+manifest/
+config/
+.sfdx/
+.husky/
+.vscode/
+node_modules/
+conversations/
+.cursor/hooks/
+scripts/apex/
+scripts/soql/
+*.csv
+sprint-*.html
+Sprint Plan.txt
+ee spint 04.csv
+package.json
+package-lock.json
+sfdx-project.json
+eslint.config.js
+jest.config.js
+README.md
+.prettierignore
+.prettierrc
+.forceignore
