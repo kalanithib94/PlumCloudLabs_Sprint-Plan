@@ -18,7 +18,7 @@
     { id: "dev",        label: "Dev",        allowPhases: false, members: ["Rishabh", "Piyush C", "Sagar"] },
     { id: "marketing",  label: "Marketing",  allowPhases: false, members: ["Vivaan", "Ujjwal", "Khushi", "Garv"] },
     { id: "ee",         label: "EE",         allowPhases: true,  members: ["Kalanithi", "Kesavamoorthy", "Jeevan", "Karthick", "Piyush P", "Manupriya"] },
-    { id: "hynoyo",     label: "Hynoyo",     allowPhases: false, members: ["Praful", "Mahima", "Nandan", "Tanya", "Tejesh", "Sunil"] },
+    { id: "hynoyo",     label: "Henoyo",     allowPhases: false, members: ["Praful", "Mahima", "Nandan", "Tanya", "Tejesh", "Sunil"] },
   ];
 
   function companyTeamConfig(teamId) {

@@ -4,7 +4,7 @@
 
 | CP | Status | Scope |
 |----|--------|--------|
-| **CP1** | Done | Multi-team tabs (Dev, Marketing, EE, Hynoyo), per-team storage |
+| **CP1** | Done | Multi-team tabs (Dev, Marketing, EE, Henoyo), per-team storage |
 | **CP2** | Done | Theme polish, HTML round-trip, sticky bar, auto-save, in-app ROVO guide |
 | **CP3** | **Done** | Full user guide (preview in new tab), full-width layout, production deploy at [plum-cloud-labs-sprint-plan.vercel.app](https://plum-cloud-labs-sprint-plan.vercel.app/) |
 
