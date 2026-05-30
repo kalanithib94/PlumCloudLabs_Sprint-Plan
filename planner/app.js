@@ -2107,6 +2107,15 @@
         toast("Copy failed — select the prompt text manually.", "error");
       }
     });
+
+    $("#btn-guide-preview").addEventListener("click", () => {
+      const w = window.open("user-guide.html", "_blank", "noopener");
+      if (!w) toast("Popup blocked — allow popups to preview the user guide.", "error");
+    });
+    $("#btn-guide-pdf").addEventListener("click", () => {
+      const w = window.open("user-guide.html?download=1", "_blank", "noopener");
+      if (!w) toast("Popup blocked — allow popups to download the PDF.", "error");
+    });
     $("#btn-paste-json").addEventListener("click", openJsonModal);
     $("#btn-apply-json").addEventListener("click", applyJsonFromModal);
     $("#btn-import-csv").addEventListener("click", openCsvPicker);

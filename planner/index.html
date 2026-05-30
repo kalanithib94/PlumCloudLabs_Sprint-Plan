@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light" />
   <title>PLUM CLOUD LABS — Sprint Plan</title>
-  <link rel="stylesheet" href="styles.css?v=8" />
+  <link rel="stylesheet" href="styles.css?v=10" />
 </head>
 <body>
   <div class="app">
@@ -13,6 +13,9 @@
       <p class="brand-kicker">PLUM CLOUD LABS</p>
       <h1 class="brand-title">Sprint Plan</h1>
       <p class="subtitle">Each team lead picks their tab — plans are saved separately in this browser.</p>
+      <p class="app-link">
+        <a href="https://plum-cloud-labs-sprint-plan.vercel.app/" target="_blank" rel="noopener">https://plum-cloud-labs-sprint-plan.vercel.app/</a>
+      </p>
     </div>
 
     <nav class="company-tabs" id="company-tabs" role="tablist" aria-label="Company team"></nav>
@@ -21,6 +24,11 @@
       <details class="guide-details">
         <summary class="guide-summary">How it works — Jira → CSV → brain dump → plan</summary>
         <div class="card-b guide-body">
+          <div class="guide-doc-actions no-print-hint">
+            <span class="hint inline">Full technical user guide (CSV mapping modal + every field):</span>
+            <button type="button" id="btn-guide-preview" class="btn small">Preview user guide</button>
+            <button type="button" id="btn-guide-pdf" class="btn small primary">Download user guide (PDF)</button>
+          </div>
           <ol class="guide-steps">
             <li><strong>Pick your team tab</strong> above (Dev, Marketing, EE, Hynoyo). Plans save separately in this browser.</li>
             <li><strong>Fill sprint dates</strong> and check the team roster. Adjust leave days and alloc % if needed.</li>
@@ -310,8 +318,8 @@ Remove V2-8748 from Piyush's personal list.</pre>
     </div>
   </div>
 
-  <script src="vendor/papaparse.min.js?v=8"></script>
-  <script src="generator.js?v=8"></script>
-  <script src="app.js?v=8"></script>
+  <script src="vendor/papaparse.min.js?v=9"></script>
+  <script src="generator.js?v=9"></script>
+  <script src="app.js?v=9"></script>
 </body>
 </html>

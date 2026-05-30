@@ -7,21 +7,27 @@ A pastel, voice-friendly bi-weekly sprint planner. Two structural styles:
 
 Pick the structure in the "Sprint structure" card near the top of the page. Each saved sprint remembers its structure.
 
-## Run it
+## Open the app
 
-1. From the project root, run a local server (Python is preinstalled):
+**Production (team use):** [https://plum-cloud-labs-sprint-plan.vercel.app/](https://plum-cloud-labs-sprint-plan.vercel.app/)
+
+Open in **Chrome** or **Edge** (needed for dictation and CSV import). No install, no build, no API keys. Plans save in your browser (`localStorage`) on that device.
+
+**User guide (PDF):** expand **How it works** in the app → **Preview user guide** or **Download user guide (PDF)**. Or open `/user-guide.html` on the same site.
+
+### Local development only
+
+1. From the project root:
 
    ```powershell
    python -m http.server 8080
    ```
 
-2. Open in **Chrome** or **Edge** (needed for dictation):
+2. Open:
 
    ```
    http://localhost:8080/planner/index.html
    ```
-
-That's it. No install, no build, no API keys.
 
 ## How it works
 
@@ -85,12 +91,12 @@ Uses the browser's built-in [Web Speech API](https://developer.mozilla.org/en-US
 
 Local work stays local until you validate and run the deploy script.
 
-1. **One-time:** create GitHub repo `plum-cloud-labs-sprint-plan`, connect it in [Vercel](https://vercel.com) (Import → Production branch = `main`, root `vercel.json` sets `outputDirectory: planner`).
+1. **One-time:** create GitHub repo [PlumCloudLabs_Sprint-Plan](https://github.com/kalanithib94/PlumCloudLabs_Sprint-Plan), connect it in [Vercel](https://vercel.com) (Import → Production branch = `main`, root `vercel.json` sets `outputDirectory: planner`).
 2. **One-time:** from `Sprint plan/` folder:
    ```powershell
    git init
    git branch -M main
-   git remote add origin https://github.com/kalanithib94/plum-cloud-labs-sprint-plan.git
+   git remote add origin https://github.com/kalanithib94/PlumCloudLabs_Sprint-Plan.git
    ```
 3. **Each release** (after local validation):
    ```powershell
@@ -99,6 +105,6 @@ Local work stays local until you validate and run the deploy script.
    ```
    Runs tests → asks for confirmation → commits deployable files only → `git push origin main` → Vercel builds production.
 
-Production URL is `/` (not `/planner/index.html`). `localStorage` is per browser/device — same as local.
+Production URL: **https://plum-cloud-labs-sprint-plan.vercel.app/** (`localStorage` is per browser/device — same as local).
 
 Manual CLI deploy (without git push): `vercel --prod --yes` from `Sprint plan/` (requires `vercel link` once).

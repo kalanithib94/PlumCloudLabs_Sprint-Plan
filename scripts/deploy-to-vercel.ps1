@@ -60,8 +60,8 @@ if (-not $remote) {
   Write-Host @"
 
 No git remote 'origin' yet. One-time setup:
-  1. Create an empty GitHub repo (e.g. plum-cloud-labs-sprint-plan)
-  2. git remote add origin https://github.com/kalanithib94/plum-cloud-labs-sprint-plan.git
+  1. Create an empty GitHub repo (e.g. PlumCloudLabs_Sprint-Plan)
+  2. git remote add origin https://github.com/kalanithib94/PlumCloudLabs_Sprint-Plan.git
   3. git push -u origin main
   4. In Vercel: Import Project -> that repo -> Production branch = main
 

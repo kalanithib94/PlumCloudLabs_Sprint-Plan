@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>PLUM CLOUD LABS Sprint Plan — User Guide</title>
+  <link rel="stylesheet" href="user-guide.css?v=1" />
+</head>
+<body>
+  <div class="guide-toolbar no-print" id="guide-toolbar">
+    <strong>User guide</strong>
+    <span class="spacer"></span>
+    <button type="button" class="btn" id="btn-print-pdf">Download PDF</button>
+    <button type="button" class="btn primary" id="btn-print-preview">Print / Save as PDF</button>
+  </div>
+
+  <div id="guide-content">
+    <header class="cover">
+      <p class="cover-kicker">PLUM CLOUD LABS</p>
+      <h1>Sprint Plan — User Guide</h1>
+      <p class="cover-meta">Planner: <strong>https://plum-cloud-labs-sprint-plan.vercel.app/</strong></p>
+      <p class="cover-meta">Covers the main planner window, CSV import mapping modal, defaults, editable fields, formulas, and release workflow.</p>
+    </header>
+
+    <nav class="toc" aria-label="Table of contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#s1">Before you start</a></li>
+        <li><a href="#s2">Application layout overview</a></li>
+        <li><a href="#s3">Company team tabs</a></li>
+        <li><a href="#s4">Sprint header card</a></li>
+        <li><a href="#s5">Team roster table</a></li>
+        <li><a href="#s6">Sticky action bar</a></li>
+        <li><a href="#s7">Brain dump and Cursor workflow</a></li>
+        <li><a href="#s8">Feasibility strip</a></li>
+        <li><a href="#s9">Sprint structure — Phases vs Per-Person</a></li>
+        <li><a href="#s10">Phases structure (EE team only)</a></li>
+        <li><a href="#s11">Per-Person structure — Shared JIRAs</a></li>
+        <li><a href="#s12">Per-Person structure — Person cards</a></li>
+        <li><a href="#s13">Import Jira CSV — mapping modal</a></li>
+        <li><a href="#s14">Paste JSON from Cursor modal</a></li>
+        <li><a href="#s15">Import HTML and Download HTML</a></li>
+        <li><a href="#s16">Save, Clear, and browser storage</a></li>
+        <li><a href="#s17">Formulas, defaults, and colour coding</a></li>
+        <li><a href="#s18">End-to-end workflow checklist</a></li>
+      </ol>
+    </nav>
+
+    <!-- Section 1 -->
+    <section id="s1">
+      <h2>1. Before you start</h2>
+      <h3>1.1 How to open the planner</h3>
+      <p>Open the live app in <strong>Chrome</strong> or <strong>Edge</strong> (needed for CSV import, clipboard copy, and speech-to-text):</p>
+      <p><strong><a href="https://plum-cloud-labs-sprint-plan.vercel.app/">https://plum-cloud-labs-sprint-plan.vercel.app/</a></strong></p>
+      <p>The planner must be served over HTTP — do not open HTML files directly as <code>file://</code> URLs.</p>
+      <div class="callout note">
+        <strong>Local development only:</strong> from the project folder run <code>python -m http.server 8080</code>, then open <code>http://localhost:8080/planner/index.html</code>.
+      </div>
+      <h3>1.2 What data is stored where</h3>
+      <table class="data">
+        <thead><tr><th>Data</th><th>Location</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Current draft + named saves</td><td>Browser <code>localStorage</code> key <code>sprintPlanner.v3</code></td><td>Per browser, per device. Not synced to a server.</td></tr>
+          <tr><td>Downloaded release HTML</td><td>Your disk</td><td>Self-contained file; can be re-imported via <strong>Import HTML</strong>.</td></tr>
+          <tr><td>Jira CSV</td><td>Never stored</td><td>Read once at import; only assignment rows are kept in the plan.</td></tr>
+        </tbody>
+      </table>
+      <h3>1.3 Constants (fixed by the app)</h3>
+      <ul>
+        <li><strong>Hours per working day:</strong> 8 (not editable in the UI).</li>
+        <li><strong>Working days:</strong> Weekdays (Mon–Fri) between sprint start and end dates, unless you override the count in the Sprint Header pill.</li>
+        <li><strong>Default working days when dates are blank:</strong> 10 (used only for capacity math until you set real dates).</li>
+      </ul>
+    </section>
+
+    <!-- Section 2 -->
+    <section id="s2">
+      <h2>2. Application layout overview</h2>
+      <p>Top to bottom on the main planner screen:</p>
+      <table class="data">
+        <thead><tr><th>Region</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Brand + subtitle</td><td>PLUM CLOUD LABS Sprint Plan — explains that each company tab saves separately.</td></tr>
+          <tr><td>Company tabs</td><td>Dev · Marketing · EE · Hynoyo — switch rosters and plans.</td></tr>
+          <tr><td>“How it works” collapsible</td><td>Quick ROVO prompt + brain-dump examples (not a substitute for this guide).</td></tr>
+          <tr><td>Page title + metric strip</td><td>Sprint name (or “EE — new sprint”) + capacity / planned / buffer hours.</td></tr>
+          <tr><td>Sprint Header card</td><td>Name, number, dates, working-days override.</td></tr>
+          <tr><td>Team card</td><td>Roster, leave, allocation %, computed available hours.</td></tr>
+          <tr><td><strong>Sticky action bar</strong></td><td>Clear · Paste JSON · Import CSV · Import HTML · Save · Feasibility · Download · Preview.</td></tr>
+          <tr><td>Brain dump card</td><td>Free-text instructions + Mic + Copy Cursor prompt.</td></tr>
+          <tr><td>Feasibility bars</td><td>Per-person planned vs available (colour-coded).</td></tr>
+          <tr><td>Sprint structure tabs</td><td>Phases or Per-Person (EE only for Phases).</td></tr>
+          <tr><td>Assignment panels</td><td>Phase cards <em>or</em> Shared JIRAs + person cards.</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Modals</strong> (overlay the main window): <em>Import Jira CSV</em> and <em>Paste JSON from Cursor</em>. Close with Cancel, ✕, backdrop click, or <kbd>Escape</kbd>.</p>
+    </section>
+
+    <!-- Section 3 -->
+    <section id="s3">
+      <h2>3. Company team tabs</h2>
+      <h3>3.1 Tabs and default rosters</h3>
+      <table class="data">
+        <thead><tr><th>Tab</th><th>Default members</th><th>Phases structure</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Dev</strong></td><td>Rishabh, Piyush C, Sagar</td><td>Hidden — Per-Person only</td></tr>
+          <tr><td><strong>Marketing</strong></td><td>Vivaan, Ujjwal, Khushi, Garv</td><td>Hidden — Per-Person only</td></tr>
+          <tr><td><strong>EE</strong></td><td>Kalanithi, Kesavamoorthy, Jeevan, Karthick, Piyush P, Manupriya</td><td><strong>Available</strong> — Phases or Per-Person</td></tr>
+          <tr><td><strong>Hynoyo</strong></td><td>Praful, Mahima, Nandan, Tanya, Tejesh, Sunil</td><td>Hidden — Per-Person only</td></tr>
+        </tbody>
+      </table>
+      <h3>3.2 What you can change</h3>
+      <ul>
+        <li><strong>Switch tab:</strong> Click any tab. The current tab’s draft is auto-saved to <code>localStorage</code> before switching.</li>
+        <li><strong>Team roster:</strong> Fully editable per tab (add/remove/rename members in the Team table). Defaults above apply only on a fresh / cleared plan.</li>
+      </ul>
+      <h3>3.3 What you cannot change in the UI</h3>
+      <ul>
+        <li>Tab labels (Dev, Marketing, EE, Hynoyo) and which teams exist — fixed in app configuration.</li>
+        <li>Enabling Phases on non-EE tabs — if a saved plan used Phases on another team, the app forces Per-Person on load.</li>
+      </ul>
+    </section>
+
+    <!-- Section 4 -->
+    <section id="s4">
+      <h2>4. Sprint header card</h2>
+      <table class="data">
+        <thead><tr><th>Field</th><th>Default</th><th>Editable</th><th>Behaviour</th></tr></thead>
+        <tbody>
+          <tr><td>Sprint name</td><td><em>empty</em></td><td>Yes — text</td><td>Updates page title when non-empty. Used as Save key if set.</td></tr>
+          <tr><td>Number</td><td><em>empty</em></td><td>Yes — text</td><td>Used in downloaded filename: <code>sprint-NN-release-plan.html</code>.</td></tr>
+          <tr><td>Start date</td><td><em>empty</em></td><td>Yes — date picker</td><td>When set without an end date, end date auto-fills to <strong>start + 13 calendar days</strong> (typical fortnight).</td></tr>
+          <tr><td>End date</td><td><em>empty</em> (or auto from start)</td><td>Yes — date picker</td><td>With start date, drives working-days count and capacity.</td></tr>
+          <tr><td>Working days (pill)</td><td>Auto from start/end</td><td>Yes — number</td><td>Weekends excluded. Type a number to override (e.g. <code>9</code> for one public holiday). Clear field to revert to auto. Pill highlights when overridden.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout tip">
+        <strong>Tip:</strong> Set sprint dates before CSV import if you want imported rows to default empty start/end cells to sprint start/end.
+      </div>
+    </section>
+
+    <!-- Section 5 -->
+    <section id="s5">
+      <h2>5. Team roster table</h2>
+      <h3>5.1 Columns</h3>
+      <table class="data">
+        <thead><tr><th>Column</th><th>Default (new member)</th><th>Editable</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Name</td><td>From tab roster or blank if added via +</td><td>Yes</td><td>Rename on blur propagates to phases, assignments, shared splits. Do not rename mid-keystroke — commit on blur.</td></tr>
+          <tr><td>Leave days</td><td><code>0</code></td><td>Yes — number ≥ 0</td><td>Whole days off during the sprint (vacation). Reduces available hours.</td></tr>
+          <tr><td>Alloc %</td><td><code>100</code></td><td>Yes — number ≥ 0</td><td>Part-time or split capacity (e.g. <code>70</code> = 70% of net working days × 8h).</td></tr>
+          <tr><td>Available hours</td><td>Computed</td><td><strong>No</strong> — read-only</td><td>Updates live when leave, alloc %, or working days change.</td></tr>
+          <tr><td>Notes</td><td><em>empty</em></td><td>Yes — text</td><td>Free text; appears in exports where team notes are rendered.</td></tr>
+          <tr><td>✕ Remove</td><td>—</td><td>Click to remove</td><td>Confirms if member has assignments. Removes from phases/shared splits too.</td></tr>
+        </tbody>
+      </table>
+      <h3>5.2 + Add member</h3>
+      <p>Adds a row with blank name, leave <code>0</code>, alloc <code>100</code>. Member immediately appears in feasibility strip, person cards, shared JIRA chips, and phase person dropdowns.</p>
+      <h3>5.3 Formula</h3>
+      <pre>availableHours = (workingDays − leaveDays) × 8 × allocationPct ÷ 100</pre>
+    </section>
+
+    <!-- Section 6 -->
+    <section id="s6" class="page-break">
+      <h2>6. Sticky action bar</h2>
+      <p>The bar stays visible while scrolling (above Brain dump). Buttons left to right:</p>
+      <table class="data">
+        <thead><tr><th>Button</th><th>Action</th><th>Details</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Clear</strong></td><td>Reset current company tab</td><td>Confirmation required. Wipes sprint fields, assignments, shared JIRAs, phases, brain dump, and <em>all named saves</em> for that tab only. Other tabs untouched.</td></tr>
+          <tr><td><strong>Paste JSON from Cursor</strong></td><td>Opens JSON modal</td><td>See Section 14.</td></tr>
+          <tr><td><strong>Import CSV</strong></td><td>Opens file picker → CSV mapping modal</td><td>See Section 13. Per-Person assignments only.</td></tr>
+          <tr><td><strong>Import HTML</strong></td><td>Opens file picker for <code>.html</code></td><td>Loads a previously downloaded release plan. See Section 15.</td></tr>
+          <tr><td><strong>Save</strong></td><td>Named save in browser</td><td>Key = sprint name, or <code>sprint-{number}</code>, or timestamp. See Section 16.</td></tr>
+          <tr><td><strong>Run feasibility check</strong></td><td>Refreshes bars + scrolls to first over-booked person</td><td>Toast: success if all within capacity, error if any <span class="pill rose">rose</span> bar.</td></tr>
+          <tr><td><strong>Download HTML</strong></td><td>Downloads release plan file</td><td>Embeds JSON for round-trip import. See Section 15.</td></tr>
+          <tr><td><strong>Preview</strong></td><td>Opens release plan in new tab</td><td>Same output as Download, not saved to disk.</td></tr>
+        </tbody>
+      </table>
+      <h3>6.1 Saved sprints bar</h3>
+      <p>Appears below the action bar when <strong>two or more</strong> named saves exist for the active tab. Click a chip to load; ✕ deletes that save. Active save is highlighted.</p>
+      <h3>6.2 Auto-save draft</h3>
+      <p>Every input/change debounces (~500 ms) to <code>localStorage</code> as the tab’s current draft. Survives refresh without clicking Save. Named saves are still created only via <strong>Save</strong>.</p>
+    </section>
+
+    <!-- Section 7 -->
+    <section id="s7">
+      <h2>7. Brain dump and Cursor workflow</h2>
+      <h3>7.1 Brain dump textarea</h3>
+      <table class="data">
+        <thead><tr><th>Property</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Default</td><td>Empty</td></tr>
+          <tr><td>Editable</td><td>Yes — multi-line text</td></tr>
+          <tr><td>Mic button</td><td>Speech-to-text (Chrome/Edge). Appends dictated text. Disabled with “n/a” if unsupported.</td></tr>
+          <tr><td>In export</td><td>Included in downloaded HTML release plan</td></tr>
+        </tbody>
+      </table>
+      <h3>7.2 Typical use after CSV import</h3>
+      <p>Describe rearrangements in plain English — one change per line or paragraph:</p>
+      <pre>V2-8748 Review Test Scripts is shared, not personal.
+Split 64h between Piyush P (24h) and Manupriya (40h).
+Remove V2-8748 from Piyush P's personal list.</pre>
+      <h3>7.3 Copy Cursor prompt</h3>
+      <ol>
+        <li>Click <strong>Copy Cursor prompt</strong> on the Brain dump card.</li>
+        <li>Paste into Cursor chat and send.</li>
+        <li>Cursor returns JSON only (no markdown).</li>
+        <li>Click <strong>Paste JSON from Cursor</strong> in the sticky bar and apply.</li>
+      </ol>
+      <h3>7.4 ROVO prompt (Jira export)</h3>
+      <p>In the collapsible “How it works” section, copy the ROVO prompt. Example:</p>
+      <pre>List all child items of the epic "EE Sprint 04" as a table with these columns: Key, Summary, Type, Status, Priority, Assignee, Reporter, Due Date, Created, Updated, Assignee-V2, Co-Assignee-V2, Story Point Estimate</pre>
+      <p>Export ROVO’s table as CSV, then <strong>Import CSV</strong>. Map <strong>Assignee-V2</strong>, not the manager-echo <strong>Assignee</strong> column.</p>
+    </section>
+
+    <!-- Section 8 -->
+    <section id="s8">
+      <h2>8. Feasibility strip</h2>
+      <p>One horizontal bar per team member. Updates automatically when hours, leave, alloc %, or working days change.</p>
+      <table class="data">
+        <thead><tr><th>Element</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>Label</td><td>Member name</td></tr>
+          <tr><td>Track (background)</td><td>Available capacity width</td></tr>
+          <tr><td>Fill (foreground)</td><td>Planned hours width</td></tr>
+          <tr><td>Meta text</td><td><code>planned h / available h (percent%)</code></td></tr>
+        </tbody>
+      </table>
+      <h3>8.1 Colour rules</h3>
+      <table class="data">
+        <thead><tr><th>Colour</th><th>Condition</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill green">Green</span></td><td>Planned ≤ 80% of available</td></tr>
+          <tr><td><span class="pill amber">Amber</span></td><td>Planned &gt; 80% and ≤ 100% of available</td></tr>
+          <tr><td><span class="pill rose">Rose</span></td><td>Planned &gt; available (over-booked)</td></tr>
+        </tbody>
+      </table>
+      <p>In <strong>Phases</strong> mode, planned hours = sum of phase row hours for that person. In <strong>Per-Person</strong> mode, planned = sum of all JIRA rows (including locked shared rows).</p>
+    </section>
+
+    <!-- Section 9 -->
+    <section id="s9" class="page-break">
+      <h2>9. Sprint structure — Phases vs Per-Person</h2>
+      <table class="data">
+        <thead><tr><th>Structure</th><th>When to use</th><th>EE tab</th><th>Other tabs</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Phases</strong></td><td>Same phase set for everyone (QA → UAT → Beta → Regression); hours from phase dates × alloc %</td><td>Available</td><td>Tab hidden; forced to Per-Person if loaded from save</td></tr>
+          <tr><td><strong>Per-Person</strong></td><td>Each person has their own JIRA list; optional shared JIRAs with manual splits</td><td>Default</td><td>Only option</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Default on new/cleared plan:</strong> Per-Person. CSV import always switches to Per-Person after apply.</p>
+    </section>
+
+    <!-- Section 10 -->
+    <section id="s10">
+      <h2>10. Phases structure (EE team only)</h2>
+      <h3>10.1 Default phase templates (new EE plan with Phases selected)</h3>
+      <p>Seven phases are pre-created with typical EE participants and allocation percentages. Dates start blank until you fill them.</p>
+      <table class="data">
+        <thead><tr><th>Phase name</th><th>Default participants (alloc %)</th></tr></thead>
+        <tbody>
+          <tr><td>QA Testing</td><td>Piyush P 100, Manupriya 100, Kesavamoorthy 100, Jeevan 70, Kalanithi 50</td></tr>
+          <tr><td>UAT</td><td>Same as QA</td></tr>
+          <tr><td>Automated CRT Testing</td><td>Manupriya 100</td></tr>
+          <tr><td>Beta Testing</td><td>Same as QA</td></tr>
+          <tr><td>Automated Regression</td><td>Piyush P 50, Manupriya 50</td></tr>
+          <tr><td>Regression Testing</td><td>Same as QA</td></tr>
+          <tr><td>KB / Release Notes / Version Tracker</td><td>Karthick 80, Kalanithi 20</td></tr>
+        </tbody>
+      </table>
+      <h3>10.2 Per phase card — editable fields</h3>
+      <table class="data">
+        <thead><tr><th>Field</th><th>Default</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Phase name</td><td>From template</td><td>Free text</td></tr>
+          <tr><td>Start / End date</td><td>Blank</td><td>On the phase header — not on individual person rows</td></tr>
+          <tr><td>Notes</td><td>Blank</td><td>Phase-level notes field</td></tr>
+          <tr><td>Person rows</td><td>From template</td><td>Person dropdown + Alloc % per row; + Add person; ✕ remove row</td></tr>
+          <tr><td>Phase total hours</td><td>Computed</td><td>Sum of row hours for that phase</td></tr>
+        </tbody>
+      </table>
+      <h3>10.3 Phase row hours formula</h3>
+      <pre>rowHours = workingDays(phaseStart, phaseEnd) × 8 × allocationPct ÷ 100
+(rounded to nearest 0.5 hour)</pre>
+      <p><strong>+ Add phase</strong> creates an empty phase. <strong>✕</strong> on phase card deletes the whole phase.</p>
+    </section>
+
+    <!-- Section 11 -->
+    <section id="s11">
+      <h2>11. Per-Person structure — Shared JIRAs</h2>
+      <p>Shared JIRAs represent work split across multiple people. The planner creates <strong>locked</strong> rows on each person’s card (labelled “shared”).</p>
+      <h3>11.1 + Add shared JIRA — defaults</h3>
+      <table class="data">
+        <thead><tr><th>Field</th><th>Default</th><th>Editable</th></tr></thead>
+        <tbody>
+          <tr><td>JIRA title</td><td>Blank</td><td>Yes</td></tr>
+          <tr><td>Total hours</td><td><code>0</code></td><td>Yes</td></tr>
+          <tr><td>Start / End date</td><td>Blank</td><td>Yes — syncs to all derived person rows</td></tr>
+          <tr><td>Member chips</td><td>None checked</td><td>Check to include; enter hours per person</td></tr>
+        </tbody>
+      </table>
+      <h3>11.2 Controls</h3>
+      <ul>
+        <li><strong>Auto-split:</strong> Divides total hours equally across checked members (rounded).</li>
+        <li><strong>Allocation pill:</strong> Shows <code>allocated h / total h</code>. Green = match; amber = under; rose = over allocated.</li>
+        <li><strong>✕:</strong> Deletes shared JIRA and removes derived rows from all person cards.</li>
+      </ul>
+      <div class="callout warn">
+        Do <strong>not</strong> duplicate a shared JIRA in a person’s personal assignment list — use shared splits only. Cursor JSON should move items to <code>sharedJiras</code> and remove them from personal lists.
+      </div>
+    </section>
+
+    <!-- Section 12 -->
+    <section id="s12">
+      <h2>12. Per-Person structure — Person cards</h2>
+      <p>One card per team member (same order as Team table). Header shows planned / available / remaining and a workload bar (same colour rules as feasibility).</p>
+      <h3>12.1 JIRA row fields</h3>
+      <table class="data">
+        <thead><tr><th>Column</th><th>Personal row</th><th>Shared-derived row</th></tr></thead>
+        <tbody>
+          <tr><td>JIRA</td><td>Editable text</td><td>Read-only (from shared card)</td></tr>
+          <tr><td>Hours</td><td>Editable number ≥ 0</td><td>Read-only (from split)</td></tr>
+          <tr><td>Start date</td><td>Editable</td><td>Editable (syncs from shared dates when changed on shared card)</td></tr>
+          <tr><td>End date</td><td>Editable</td><td>Same as start</td></tr>
+          <tr><td>“shared” pill</td><td>—</td><td>Shown</td></tr>
+          <tr><td>✕ delete</td><td>Removes row</td><td>Disabled — remove via Shared JIRA section</td></tr>
+        </tbody>
+      </table>
+      <h3>12.2 + Add JIRA for [name]</h3>
+      <p>Adds a row: blank JIRA, <code>0</code> hours, blank dates, not shared.</p>
+      <h3>12.3 CSV import row defaults (after Apply)</h3>
+      <ul>
+        <li>JIRA text = <code>{Issue key} — {Summary}</code> (either part alone if the other missing).</li>
+        <li>Hours = parsed from estimate column (see Section 13).</li>
+        <li>Start = CSV start column if mapped, else sprint start date if set, else blank.</li>
+        <li>End = CSV due column if mapped, else sprint end date if set, else blank.</li>
+      </ul>
+    </section>
+
+    <!-- Section 13 - CSV Modal - the big one -->
+    <section id="s13" class="page-break">
+      <h2>13. Import Jira CSV — mapping modal</h2>
+      <p>Opened after you pick a <code>.csv</code> file via <strong>Import CSV</strong>. Parsing uses PapaParse (header row = column names).</p>
+
+      <h3>13.1 Step-by-step</h3>
+      <p><span class="step-num">1</span> Click <strong>Import CSV</strong> in the sticky bar.</p>
+      <p><span class="step-num">2</span> Choose your Jira/ROVO export file.</p>
+      <p><span class="step-num">3</span> Review file line: filename · row count · column count.</p>
+      <p><span class="step-num">4</span> Adjust column mapping dropdowns (auto-detected — verify especially Assignee).</p>
+      <p><span class="step-num">5</span> Set estimate unit and import mode.</p>
+      <p><span class="step-num">6</span> Fix any unmatched assignees in the remap section.</p>
+      <p><span class="step-num">7</span> Scan the preview table (green match / red no match).</p>
+      <p><span class="step-num">8</span> Click <strong>Apply import</strong> (enabled only when ≥ 1 matched row).</p>
+
+      <h3>13.2 Column mapping fields</h3>
+      <table class="data">
+        <thead><tr><th>Control</th><th>Required</th><th>Auto-detection hints</th><th>Your action</th></tr></thead>
+        <tbody>
+          <tr><td>Issue key column</td><td>Optional</td><td>“issue key”, “key”, “issue id”</td><td>Select column with JIRA keys (e.g. V2-8748). Choose “(none)” if keys live elsewhere.</td></tr>
+          <tr><td>Summary column</td><td>Optional</td><td>“summary”, “title”</td><td>Ticket title combined with key for JIRA cell text.</td></tr>
+          <tr><td>Assignee column</td><td><strong>Required</strong></td><td>Prefers columns with <strong>many unique values</strong>. Penalises single-value columns (often manager who exported CSV).</td><td><strong>Use Assignee-V2</strong> for EE exports, not Assignee.</td></tr>
+          <tr><td>Estimate column</td><td><strong>Required</strong></td><td>“original estimate”, “story point estimate”, “remaining estimate”, etc.</td><td>Pick column with hours or story points.</td></tr>
+          <tr><td>Estimate unit</td><td>—</td><td>Default <strong>Auto-detect</strong></td><td>See 13.3</td></tr>
+          <tr><td>Hours per story point</td><td>When unit = Story points</td><td>Default <code>8</code>; auto-switched to <code>1</code> if points look like hours (values ≥ 14 or median &gt; 5)</td><td>Set to <code>1</code> if your team enters hours in the story-points column.</td></tr>
+          <tr><td>Start date column</td><td>Optional</td><td>“start date”, “started”</td><td>“(none)” if unused.</td></tr>
+          <tr><td>Due/end date column</td><td>Optional</td><td>“due date”, “due”</td><td>“(none)” if unused.</td></tr>
+          <tr><td>Mode</td><td>—</td><td>Default <strong>Append</strong></td><td><strong>Append</strong> adds rows; <strong>Replace</strong> deletes non-shared personal rows first.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>13.3 Estimate unit options</h3>
+      <table class="data">
+        <thead><tr><th>Unit</th><th>How values are interpreted</th></tr></thead>
+        <tbody>
+          <tr><td>Auto-detect</td><td>Jira duration strings (<code>1d 4h</code>, <code>30m</code>); pure numbers ≥ 1000 treated as seconds; smaller numbers as hours.</td></tr>
+          <tr><td>Hours</td><td>Plain numbers and <code>d/h/m/s</code> suffix strings as hours/minutes/seconds.</td></tr>
+          <tr><td>Seconds</td><td>Numeric values divided by 3600 (Jira “Original Estimate” in seconds).</td></tr>
+          <tr><td>Story points</td><td>Numeric × “Hours per story point”. Blank/em-dash → 0 hours.</td></tr>
+        </tbody>
+      </table>
+      <p>Blank tokens treated as empty: em-dash <code>—</code>, en-dash, hyphen-only cells.</p>
+
+      <h3>13.4 Assignee matching</h3>
+      <p>Automatic fuzzy match order:</p>
+      <ol>
+        <li>Exact full name (case-insensitive)</li>
+        <li>First name match (≥ 3 characters)</li>
+        <li>Partial contains match</li>
+      </ol>
+
+      <h3>13.5 Remap unmatched assignees section</h3>
+      <p>Shown when CSV names do not match the team table. For each raw name:</p>
+      <table class="data">
+        <thead><tr><th>Dropdown option</th><th>Effect</th></tr></thead>
+        <tbody>
+          <tr><td>— Skip these rows —</td><td>Those CSV rows excluded from import</td></tr>
+          <tr><td>→ [team member]</td><td>Maps all rows with that raw name to the selected person</td></tr>
+          <tr><td>+ Add as new team member …</td><td>Prompts for short name; adds to Team table with note “From CSV: …”</td></tr>
+        </tbody>
+      </table>
+      <p>Changing the Assignee column dropdown clears previous alias mappings.</p>
+
+      <h3>13.6 Preview table columns</h3>
+      <table class="data">
+        <thead><tr><th>Column</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>JIRA</td><td>Combined key + summary (truncated in UI if long)</td></tr>
+          <tr><td>Assignee</td><td>Raw value from CSV assignee column</td></tr>
+          <tr><td>Match</td><td>Green pill = team member; red “no match” = row skipped on import</td></tr>
+          <tr><td>Hours</td><td>Parsed estimate after unit conversion</td></tr>
+          <tr><td>Start / End</td><td>Normalised to <code>YYYY-MM-DD</code> or —</td></tr>
+        </tbody>
+      </table>
+      <p>Footer stats: total rows · matched count and hours · skipped count. Modal footer: “N row(s) ready to import”.</p>
+
+      <h3>13.7 Modal footer buttons</h3>
+      <ul>
+        <li><strong>Pick a different file</strong> — re-open file picker without closing modal.</li>
+        <li><strong>Cancel</strong> / ✕ / backdrop / Escape — discard import context.</li>
+        <li><strong>Apply import</strong> — writes matched rows to person cards; switches to Per-Person view; toast with count.</li>
+      </ul>
+
+      <div class="callout note">
+        <strong>Replace mode detail:</strong> Removes all personal (non-shared) JIRA rows from every person before importing. Shared-derived rows are kept so shared JIRA sync is not broken.
+      </div>
+    </section>
+
+    <!-- Section 14 -->
+    <section id="s14" class="page-break">
+      <h2>14. Paste JSON from Cursor modal</h2>
+      <h3>14.1 Opening and applying</h3>
+      <ol>
+        <li>Click <strong>Paste JSON from Cursor</strong>.</li>
+        <li>Paste JSON into the large textarea (with or without surrounding whitespace).</li>
+        <li>Click <strong>Apply JSON</strong>.</li>
+      </ol>
+      <h3>14.2 What JSON replaces</h3>
+      <p>Replaces sprint header fields, team, style, phases, shared JIRAs, and assignments for the <strong>current company tab</strong>.</p>
+      <h3>14.3 Brain dump behaviour</h3>
+      <p>Your current brain dump is <strong>preserved</strong> unless the JSON includes a non-empty <code>brainDump</code> field.</p>
+      <h3>14.4 Validation errors</h3>
+      <p>Invalid JSON or schema errors show in red below the textarea. Modal stays open for correction.</p>
+      <h3>14.5 Cancel</h3>
+      <p>Cancel, ✕, backdrop, or Escape closes without changes.</p>
+    </section>
+
+    <!-- Section 15 -->
+    <section id="s15">
+      <h2>15. Import HTML and Download HTML</h2>
+      <h3>15.1 Download HTML</h3>
+      <ul>
+        <li>Builds a standalone release plan matching the pastel layout.</li>
+        <li>Embeds full planner JSON in a <code>script</code> tag for round-trip editing.</li>
+        <li>Filename: <code>sprint-NN-release-plan.html</code> (NN from sprint number, or <code>xx</code> if blank).</li>
+      </ul>
+      <h3>15.2 Import HTML</h3>
+      <ol>
+        <li>Click <strong>Import HTML</strong>.</li>
+        <li>Select a file previously downloaded from this planner.</li>
+        <li>Preferred: reads embedded JSON (<strong>full round-trip</strong>).</li>
+        <li>Fallback: scrapes visible layout from older HTML files (partial — re-download after edits for full round-trip).</li>
+      </ol>
+      <h3>15.3 Preview</h3>
+      <p>Same generated HTML as Download, opened in a new browser tab. Allow pop-ups if blocked.</p>
+    </section>
+
+    <!-- Section 16 -->
+    <section id="s16">
+      <h2>16. Save, Clear, and browser storage</h2>
+      <table class="data">
+        <thead><tr><th>Action</th><th>Scope</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Auto-save draft</td><td>Active tab</td><td>Debounced write to <code>teams[tabId].current</code></td></tr>
+          <tr><td>Save button</td><td>Active tab</td><td>Named entry in <code>teams[tabId].sprints</code>; sets <code>lastKey</code></td></tr>
+          <tr><td>Load saved chip</td><td>Active tab</td><td>Replaces current editor state</td></tr>
+          <tr><td>Clear</td><td>Active tab only</td><td>Resets draft + all named saves for that tab</td></tr>
+          <tr><td>Switch company tab</td><td>Per tab</td><td>Each tab has isolated <code>sprints</code> and <code>current</code></td></tr>
+        </tbody>
+      </table>
+      <p>Migration: old <code>sprintPlanner.v2</code> data imports into the EE tab bucket on first load.</p>
+    </section>
+
+    <!-- Section 17 -->
+    <section id="s17" class="page-break">
+      <h2>17. Formulas, defaults, and colour coding</h2>
+      <h3>17.1 Core formulas</h3>
+      <pre>workingDays (auto) = weekdays between sprint start and end (Mon–Fri only)
+sprintWorkingDays  = override if set and &gt; 0, else auto (else 10 if no dates)
+
+availableHours(member) = (sprintWorkingDays − leaveDays) × 8 × allocationPct ÷ 100
+
+planned (per person, Per-Person) = Σ assignment.hours (includes shared rows)
+planned (per person, Phases)     = Σ phaseRowHours for each phase row
+
+buffer (metric strip) = max(0, totalCapacity − totalPlanned)</pre>
+      <h3>17.2 Key defaults summary</h3>
+      <table class="data">
+        <thead><tr><th>Item</th><th>Default</th></tr></thead>
+        <tbody>
+          <tr><td>Active company tab on first visit</td><td>EE</td></tr>
+          <tr><td>Sprint structure</td><td>Per-Person</td></tr>
+          <tr><td>Leave days / Alloc %</td><td>0 / 100</td></tr>
+          <tr><td>End date when only start set</td><td>Start + 13 days</td></tr>
+          <tr><td>Working days with no dates</td><td>10</td></tr>
+          <tr><td>CSV import mode</td><td>Append</td></tr>
+          <tr><td>CSV estimate unit</td><td>Auto-detect</td></tr>
+          <tr><td>Story points multiplier (when detected as points-as-hours)</td><td>1 h/point</td></tr>
+          <tr><td>New JIRA row hours</td><td>0</td></tr>
+          <tr><td>New shared JIRA total</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Section 18 -->
+    <section id="s18">
+      <h2>18. End-to-end workflow checklist</h2>
+      <h3>18.1 Standard sprint (Jira → release plan)</h3>
+      <ol>
+        <li>Select your company tab.</li>
+        <li>Enter sprint name, number, start and end dates; adjust team leave/alloc %.</li>
+        <li>In Jira ROVO, run the export prompt; save as CSV.</li>
+        <li><strong>Import CSV</strong> → map Assignee-V2 and estimate columns → remap unmatched names → Apply.</li>
+        <li>Type brain-dump rearrangements (shared splits, removals, hour changes).</li>
+        <li><strong>Copy Cursor prompt</strong> → Cursor chat → <strong>Paste JSON from Cursor</strong>.</li>
+        <li>Review feasibility bars; adjust manually or via another Cursor pass if needed.</li>
+        <li><strong>Save</strong> a named copy in the browser.</li>
+        <li><strong>Preview</strong> then <strong>Download HTML</strong> for stakeholders.</li>
+      </ol>
+      <h3>18.2 Phases-based release sprint (EE only)</h3>
+      <ol>
+        <li>Select EE tab → Sprint structure → <strong>Phases</strong>.</li>
+        <li>Set sprint dates and team leave/alloc %.</li>
+        <li>Fill each phase start/end; adjust who participates and alloc % per phase.</li>
+        <li>Run feasibility check; use Preview/Download when ready.</li>
+      </ol>
+      <h3>18.3 Edit an existing release plan</h3>
+      <ol>
+        <li><strong>Import HTML</strong> from a previous download.</li>
+        <li>Edit in planner; Save optional.</li>
+        <li>Download HTML again (embeds fresh JSON for next round-trip).</li>
+      </ol>
+      <p style="margin-top: 24px; color: var(--muted); font-size: 12px;">— End of user guide — PLUM CLOUD LABS Sprint Plan</p>
+    </section>
+  </div>
+
+  <script src="vendor/html2pdf.bundle.min.js?v=1"></script>
+  <script src="user-guide.js?v=1"></script>
+</body>
+</html>

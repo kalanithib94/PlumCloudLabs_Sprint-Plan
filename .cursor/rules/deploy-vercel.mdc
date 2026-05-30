@@ -30,7 +30,7 @@ alwaysApply: true
 ## Vercel
 
 - Static site; `outputDirectory` = `planner` (see root `vercel.json`).
-- Production URL serves `/` = `index.html` (not `/planner/index.html`).
+- Production: **https://plum-cloud-labs-sprint-plan.vercel.app/** (serves `/` = `index.html`, not `/planner/index.html`).
 - Branch **main** → production (connect repo once in Vercel dashboard).
 
 ## Commits

@@ -17,6 +17,7 @@ Read today's conversation log **verbatim**, no summarizing, no skimming:
 
 - Vanilla HTML/CSS/JS in `planner/`. No build step. No frameworks. No bundler.
 - Open locally via `python -m http.server 8080` then `http://localhost:8080/planner/index.html`.
+- **Production:** [https://plum-cloud-labs-sprint-plan.vercel.app/](https://plum-cloud-labs-sprint-plan.vercel.app/)
 - Production (Vercel): `/` serves the same app after deploy — see `scripts/deploy-to-vercel.ps1`.
 
 ## Two structures only
