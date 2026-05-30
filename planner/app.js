@@ -79,6 +79,15 @@
     }));
   }
 
+  // EE (Phases-capable) plans seed the seven release templates when switching to
+  // Phases with an empty list — e.g. after CSV/JSON import or an older localStorage save.
+  function seedDefaultPhasesIfEmpty() {
+    if (!companyTeamAllowsPhases()) return false;
+    if (Array.isArray(state.phases) && state.phases.length > 0) return false;
+    state.phases = buildDefaultPhases();
+    return true;
+  }
+
   // Lift legacy per-row dates onto the phase header. Older saved sprints
   // stored startDate/endDate on each assignment row; we now hold those on the
   // phase itself. Take the first row's dates as the phase dates.
@@ -479,6 +488,9 @@
   // ---------- Rendering: Phases structure ----------
 
   function renderPhases() {
+    if (state.style === "phases" && seedDefaultPhasesIfEmpty()) {
+      schedulePersistDraft();
+    }
     const root = $("#phase-cards");
     root.innerHTML = "";
     if (!state.phases.length) {
@@ -999,6 +1011,10 @@
       t.setAttribute("aria-selected", on ? "true" : "false");
     });
     $$(".panel").forEach((p) => p.classList.toggle("active", p.getAttribute("data-style") === style));
+    if (style === "phases") {
+      if (seedDefaultPhasesIfEmpty()) schedulePersistDraft();
+      renderPhases();
+    }
     renderMetricStrip();
     renderFeasibility();
   }
