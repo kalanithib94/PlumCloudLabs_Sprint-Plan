@@ -2,6 +2,7 @@
 html {
   color-scheme: light;
   background: var(--bg);
+  min-height: 100%;
 }
 
 :root {
@@ -49,12 +50,14 @@ button {
 
 body {
   margin: 0;
-  padding: 24px;
+  padding: 20px clamp(16px, 2vw, 36px) 40px;
+  min-height: 100vh;
   font-family: var(--font);
   font-size: 14px;
   line-height: 1.5;
   color: var(--text);
   background: var(--bg);
+  box-sizing: border-box;
 }
 
 h2 { font-size: 14px; font-weight: 600; margin: 0; color: var(--muted); }
@@ -62,23 +65,13 @@ h3 { font-size: 13px; font-weight: 600; margin: 0; color: var(--muted); }
 p { margin: 0 0 8px 0; }
 
 .subtitle { color: var(--muted); margin: 4px 0 0 0; font-size: 13px; }
-.app-link {
-  margin: 6px 0 0;
-  font-size: 12px;
-}
-.app-link a {
-  color: var(--accent-strong);
-  text-decoration: none;
-  word-break: break-all;
-}
-.app-link a:hover { text-decoration: underline; }
 .hint { font-size: 12px; color: var(--faint); margin-top: 6px; }
 .hint.inline { display: inline; margin-top: 0; }
 
 .guide-card { border-color: var(--accent); }
 .guide-details { margin: 0; }
 .guide-summary {
-  padding: 12px 16px;
+  padding: 14px 18px 14px 32px;
   cursor: pointer;
   font-weight: 600;
   font-size: 13px;
@@ -88,8 +81,13 @@ p { margin: 0 0 8px 0; }
 }
 .guide-summary::-webkit-details-marker { display: none; }
 .guide-summary::before {
-  content: "▸ ";
+  content: "▸";
   display: inline-block;
+  margin-right: 10px;
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 700;
+  vertical-align: -1px;
   transition: transform 0.15s;
 }
 .guide-details[open] .guide-summary::before { transform: rotate(90deg); }
@@ -151,8 +149,9 @@ body.modal-open { overflow: hidden; }
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 1100px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 
 .saved-bar {

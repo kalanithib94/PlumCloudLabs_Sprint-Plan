@@ -542,9 +542,9 @@
       --font:"Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
     }
     * { box-sizing: border-box; }
-    body { margin:0; padding:32px 24px 56px; font-family:var(--font); font-size:14px;
+    body { margin:0; padding:32px clamp(20px, 3vw, 48px) 56px; font-family:var(--font); font-size:14px;
            line-height:1.5; color:var(--text); background:var(--bg); }
-    .wrap { max-width: 1080px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+    .wrap { max-width: none; width: 100%; margin: 0; display: flex; flex-direction: column; gap: 18px; }
     h1 { font-size: 24px; font-weight: 600; margin: 0 0 4px 0; letter-spacing:-0.01em; }
     h1::after { content:""; display:block; width:42px; height:3px; background:var(--accent); border-radius:2px; margin-top:6px; }
     h2 { font-size: 15px; font-weight: 600; margin: 0 0 10px 0; color: var(--text); }

@@ -1,5 +1,13 @@
 # Sprint Planner — Local App
 
+## Checkpoints
+
+| CP | Status | Scope |
+|----|--------|--------|
+| **CP1** | Done | Multi-team tabs (Dev, Marketing, EE, Hynoyo), per-team storage |
+| **CP2** | Done | Theme polish, HTML round-trip, sticky bar, auto-save, in-app ROVO guide |
+| **CP3** | **Done** | Full user guide (preview in new tab), full-width layout, production deploy at [plum-cloud-labs-sprint-plan.vercel.app](https://plum-cloud-labs-sprint-plan.vercel.app/) |
+
 A pastel, voice-friendly bi-weekly sprint planner. Two structural styles:
 
 - **Phases**: phase cards, each with a sub-table of per-person assignments (different allocation %, start/end per person within the same phase).
@@ -13,7 +21,7 @@ Pick the structure in the "Sprint structure" card near the top of the page. Each
 
 Open in **Chrome** or **Edge** (needed for dictation and CSV import). No install, no build, no API keys. Plans save in your browser (`localStorage`) on that device.
 
-**User guide (PDF):** expand **How it works** in the app → **Preview user guide** or **Download user guide (PDF)**. Or open `/user-guide.html` on the same site.
+**User guide:** expand **How it works** → **Preview user guide** (opens in a new tab; use **Print / Save as PDF** there if needed). Or open `/user-guide.html` on the same site.
 
 ### Local development only
 
