@@ -1,0 +1,196 @@
+{
+  "sprint": {
+    "name": "Sprint 05 — Feature Sprint",
+    "number": 5,
+    "startDate": "2026-06-29",
+    "endDate": "2026-07-10",
+    "workingDaysOverride": "9"
+  },
+  "style": "perPerson",
+  "brainDump": "Piyush owns PERF-451 and DESIGN-89. Ramesh on API-303 mostly. Karthick has CRT-77 + KB-15. K7 helps Piyush on PERF + owns BUG-201. Jeevan on TEST-99 / QA-CHECK at 70%. Master on ADMIN + KB-RELEASE at 50%. Shared REGRESSION-50 split unevenly because Piyush knows the legacy module. Plus a SUPPORT rotation shared across Piyush/Ramesh/Karthick/K7.",
+  "team": [
+    {
+      "name": "Piyush",
+      "leaveDays": 0,
+      "allocationPct": 100,
+      "notes": "Lead"
+    },
+    {
+      "name": "Ramesh",
+      "leaveDays": 0,
+      "allocationPct": 100,
+      "notes": ""
+    },
+    {
+      "name": "Karthick",
+      "leaveDays": 0,
+      "allocationPct": 100,
+      "notes": ""
+    },
+    {
+      "name": "K7",
+      "leaveDays": 0,
+      "allocationPct": 100,
+      "notes": ""
+    },
+    {
+      "name": "Jeevan",
+      "leaveDays": 2,
+      "allocationPct": 70,
+      "notes": "PTO Mon-Tue week 2"
+    },
+    {
+      "name": "Master",
+      "leaveDays": 1,
+      "allocationPct": 50,
+      "notes": ""
+    }
+  ],
+  "phases": [],
+  "sharedJiras": [
+    {
+      "id": "SHARED-REG-50",
+      "jira": "REGRESSION-50 — Cross-team regression",
+      "totalHours": 60,
+      "startDate": "2026-07-06",
+      "endDate": "2026-07-10",
+      "splits": {
+        "Piyush": 24,
+        "Ramesh": 16,
+        "K7": 16,
+        "Jeevan": 4
+      }
+    },
+    {
+      "id": "SHARED-SUPPORT",
+      "jira": "SUPPORT-ROTATION — On-call coverage",
+      "totalHours": 40,
+      "startDate": "2026-06-29",
+      "endDate": "2026-07-10",
+      "splits": {
+        "Piyush": 8,
+        "Ramesh": 8,
+        "Karthick": 16,
+        "K7": 8
+      }
+    }
+  ],
+  "assignments": {
+    "Piyush": [
+      {
+        "id": "p1",
+        "jira": "PERF-451 — Cache layer rewrite",
+        "hours": 24,
+        "startDate": "2026-06-29",
+        "endDate": "2026-07-02",
+        "sharedId": null
+      },
+      {
+        "id": "p2",
+        "jira": "DESIGN-89 — Sync-up + design doc",
+        "hours": 12,
+        "startDate": "2026-07-03",
+        "endDate": "2026-07-03",
+        "sharedId": null
+      },
+      {
+        "id": "p3",
+        "jira": "BUG-200 — Memory leak in worker pool",
+        "hours": 16,
+        "startDate": "2026-07-06",
+        "endDate": "2026-07-07",
+        "sharedId": null
+      }
+    ],
+    "Ramesh": [
+      {
+        "id": "r1",
+        "jira": "API-303 — Pagination + filter rewrite",
+        "hours": 40,
+        "startDate": "2026-06-29",
+        "endDate": "2026-07-03",
+        "sharedId": null
+      },
+      {
+        "id": "r2",
+        "jira": "DOC-12 — OpenAPI spec refresh",
+        "hours": 8,
+        "startDate": "2026-07-06",
+        "endDate": "2026-07-06",
+        "sharedId": null
+      }
+    ],
+    "Karthick": [
+      {
+        "id": "k1",
+        "jira": "CRT-77 — Automation suite expansion",
+        "hours": 32,
+        "startDate": "2026-06-29",
+        "endDate": "2026-07-03",
+        "sharedId": null
+      },
+      {
+        "id": "k2",
+        "jira": "KB-15 — Internal runbook",
+        "hours": 10,
+        "startDate": "2026-07-06",
+        "endDate": "2026-07-07",
+        "sharedId": null
+      }
+    ],
+    "K7": [
+      {
+        "id": "x1",
+        "jira": "PERF-451-SUB — Cache benchmark",
+        "hours": 28,
+        "startDate": "2026-06-29",
+        "endDate": "2026-07-02",
+        "sharedId": null
+      },
+      {
+        "id": "x2",
+        "jira": "BUG-201 — Race condition fix",
+        "hours": 16,
+        "startDate": "2026-07-03",
+        "endDate": "2026-07-06",
+        "sharedId": null
+      }
+    ],
+    "Jeevan": [
+      {
+        "id": "j1",
+        "jira": "TEST-99 — Edge-case test pass",
+        "hours": 16,
+        "startDate": "2026-07-01",
+        "endDate": "2026-07-03",
+        "sharedId": null
+      },
+      {
+        "id": "j2",
+        "jira": "QA-CHECK-2 — Smoke run",
+        "hours": 8,
+        "startDate": "2026-07-07",
+        "endDate": "2026-07-07",
+        "sharedId": null
+      }
+    ],
+    "Master": [
+      {
+        "id": "m1",
+        "jira": "ADMIN-22 — Quarterly board prep",
+        "hours": 16,
+        "startDate": "2026-06-29",
+        "endDate": "2026-07-02",
+        "sharedId": null
+      },
+      {
+        "id": "m2",
+        "jira": "KB-RELEASE — Sprint 05 release notes",
+        "hours": 12,
+        "startDate": "2026-07-09",
+        "endDate": "2026-07-10",
+        "sharedId": null
+      }
+    ]
+  }
+}

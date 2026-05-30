@@ -1,0 +1,198 @@
+{
+  "sprint": {
+    "name": "Sprint 04 — Release Plan",
+    "number": 4,
+    "startDate": "2026-06-15",
+    "endDate": "2026-06-26",
+    "workingDaysOverride": ""
+  },
+  "style": "phases",
+  "brainDump": "QA Mon-Wed, UAT Thu-Fri week 1. CRT runs all sprint long, Ramesh owns it. Beta in week 2 Mon-Wed. Regression Thu-Fri week 2. Karthick on KB/release notes only. Jeevan 70% (parental), Master 50% (split with another team).",
+  "team": [
+    {
+      "name": "Piyush",
+      "leaveDays": 0,
+      "allocationPct": 100,
+      "notes": "Lead"
+    },
+    {
+      "name": "Ramesh",
+      "leaveDays": 0,
+      "allocationPct": 100,
+      "notes": "Owns automation/CRT"
+    },
+    {
+      "name": "Karthick",
+      "leaveDays": 0,
+      "allocationPct": 100,
+      "notes": "Docs/KB lead"
+    },
+    {
+      "name": "K7",
+      "leaveDays": 0,
+      "allocationPct": 100,
+      "notes": ""
+    },
+    {
+      "name": "Jeevan",
+      "leaveDays": 0,
+      "allocationPct": 70,
+      "notes": "Parental leave window"
+    },
+    {
+      "name": "Master",
+      "leaveDays": 0,
+      "allocationPct": 50,
+      "notes": "50% shared with team B"
+    }
+  ],
+  "phases": [
+    {
+      "phaseName": "QA Testing",
+      "startDate": "2026-06-15",
+      "endDate": "2026-06-17",
+      "assignments": [
+        {
+          "personName": "Piyush",
+          "allocationPct": 100
+        },
+        {
+          "personName": "Ramesh",
+          "allocationPct": 100
+        },
+        {
+          "personName": "K7",
+          "allocationPct": 100
+        },
+        {
+          "personName": "Jeevan",
+          "allocationPct": 70
+        },
+        {
+          "personName": "Master",
+          "allocationPct": 50
+        }
+      ]
+    },
+    {
+      "phaseName": "UAT",
+      "startDate": "2026-06-18",
+      "endDate": "2026-06-19",
+      "assignments": [
+        {
+          "personName": "Piyush",
+          "allocationPct": 100
+        },
+        {
+          "personName": "Ramesh",
+          "allocationPct": 100
+        },
+        {
+          "personName": "K7",
+          "allocationPct": 100
+        },
+        {
+          "personName": "Jeevan",
+          "allocationPct": 70
+        }
+      ]
+    },
+    {
+      "phaseName": "Automated CRT Testing",
+      "startDate": "2026-06-15",
+      "endDate": "2026-06-26",
+      "assignments": [
+        {
+          "personName": "Ramesh",
+          "allocationPct": 50
+        }
+      ]
+    },
+    {
+      "phaseName": "Beta Testing",
+      "startDate": "2026-06-22",
+      "endDate": "2026-06-24",
+      "assignments": [
+        {
+          "personName": "Piyush",
+          "allocationPct": 100
+        },
+        {
+          "personName": "Ramesh",
+          "allocationPct": 100
+        },
+        {
+          "personName": "K7",
+          "allocationPct": 100
+        },
+        {
+          "personName": "Jeevan",
+          "allocationPct": 70
+        },
+        {
+          "personName": "Master",
+          "allocationPct": 50
+        }
+      ]
+    },
+    {
+      "phaseName": "Automated Regression",
+      "startDate": "2026-06-22",
+      "endDate": "2026-06-25",
+      "assignments": [
+        {
+          "personName": "Piyush",
+          "allocationPct": 50
+        },
+        {
+          "personName": "Ramesh",
+          "allocationPct": 50
+        }
+      ]
+    },
+    {
+      "phaseName": "Regression Testing",
+      "startDate": "2026-06-25",
+      "endDate": "2026-06-26",
+      "assignments": [
+        {
+          "personName": "Piyush",
+          "allocationPct": 100
+        },
+        {
+          "personName": "Ramesh",
+          "allocationPct": 100
+        },
+        {
+          "personName": "K7",
+          "allocationPct": 100
+        },
+        {
+          "personName": "Jeevan",
+          "allocationPct": 70
+        },
+        {
+          "personName": "Master",
+          "allocationPct": 50
+        }
+      ]
+    },
+    {
+      "phaseName": "KB / Release Notes / Version Tracker",
+      "startDate": "2026-06-25",
+      "endDate": "2026-06-26",
+      "assignments": [
+        {
+          "personName": "Karthick",
+          "allocationPct": 80
+        },
+        {
+          "personName": "Master",
+          "allocationPct": 20
+        }
+      ]
+    }
+  ],
+  "sharedJiras": [],
+  "assignments": {}
+}

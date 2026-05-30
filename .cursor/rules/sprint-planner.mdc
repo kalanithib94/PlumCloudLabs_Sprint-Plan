@@ -1,0 +1,59 @@
+---
+description: Sprint Planner project conventions and conversation-log requirement
+alwaysApply: true
+---
+
+# Sprint Planner — Project Rules
+
+## Before responding (mandatory)
+
+Read today's conversation log **verbatim**, no summarizing, no skimming:
+
+- Path: `conversations/YYYY-MM-DD.md` where `YYYY-MM-DD` is the local date.
+- If the file is missing, today is a new day — read the most recent prior file in `conversations/` for context, then proceed.
+- The Cursor hook in `.cursor/hooks.json` appends each turn automatically. Do not edit the log unless asked.
+
+## Stack
+
+- Vanilla HTML/CSS/JS in `planner/`. No build step. No frameworks. No bundler.
+- Open locally via `python -m http.server 8080` then `http://localhost:8080/planner/index.html`.
+- Production (Vercel): `/` serves the same app after deploy — see `scripts/deploy-to-vercel.ps1`.
+
+## Two structures only
+
+The planner supports exactly two sprint structures, selected via the "Sprint structure" card:
+
+1. `phases` — phase cards with per-person sub-rows. State holds `phases: [{ phaseName, assignments: [{ personName, allocationPct, startDate, endDate }] }]`.
+2. `perPerson` — one card per teammate with their own JIRAs. State holds `sharedJiras: [...]` and `assignments: { [name]: [{ jira, hours, startDate, endDate, sharedId }] }`.
+
+Do not introduce a third structure without explicit user approval. Do not relabel the structures with sprint numbers (e.g. "Sprint 3 / Sprint 4") — those were one-time historical references.
+
+## Constants
+
+- `HOURS_PER_DAY = 8`. Defined in both `planner/app.js` and `planner/generator.js`. Do not change the value.
+- Sprint working days = weekdays between `sprint.startDate` and `sprint.endDate` (weekends excluded), default `10`.
+- `availableHours(member) = (workingDays - leaveDays) * 8 * allocationPct / 100`.
+
+## Theme
+
+- Use only the pastel palette declared in `planner/styles.css` (`:root` block: `--bg`, `--accent`, `--mint`, `--peach`, `--rose`, `--sky`, plus `*-soft` tints).
+- Do not reintroduce the dark monochrome theme inside `planner/`. The existing `sprint-03-release-plan.html` is the only file allowed to keep the dark theme — leave it untouched.
+- `planner/generator.js` must mirror the in-app layout for the active style with the same pastel palette inlined.
+
+## Add features lazily
+
+- Do not add new sections (timeline, assumptions, risks, release-gate, donut, etc.) unless the user explicitly asks. The cut list lives in `README.planner.md`.
+- When the user asks for a new feature, prefer extending existing state shape over adding new top-level concepts.
+
+## Vacations and new joiners
+
+- Vacations: increase `team[i].leaveDays`. `availableHours` recomputes live.
+- New joiners: push a new row into `team[]`. It must immediately propagate to the feasibility strip, Per-Person cards, Shared JIRA member chips, and Phase person dropdowns. If you change rendering, preserve this propagation.
+
+## Files you may touch freely
+
+- `planner/index.html`, `planner/styles.css`, `planner/app.js`, `planner/generator.js`, `planner/prompt-template.md`, `README.planner.md`.
+
+## Files to leave alone unless asked
+
+- `sprint-03-release-plan.html`, `Sprint Plan.txt`, `force-app/**`, `config/**`, `manifest/**`, `scripts/**`, `sfdx-project.json`, `package.json` (unless the user asks for a script entry).

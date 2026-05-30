@@ -1,0 +1,76 @@
+# --- Sprint planner: local-only (never deploy) ---
+conversations/
+.cursor/hooks/.user-buffer.txt
+ee spint 04.csv
+sprint-04-from-csv.html
+sprint-03-release-plan.html
+Sprint Plan.txt
+planner/.tests/your-sprint-04.csv
+planner/.tests/imported-state.json
+
+# --- Salesforce project (not deployed to Vercel) ---
+force-app/
+manifest/
+config/
+.sfdx/
+.husky/
+.vscode/
+package.json
+package-lock.json
+node_modules/
+sfdx-project.json
+eslint.config.js
+jest.config.js
+README.md
+.prettierignore
+.prettierrc
+.forceignore
+
+# This file is used for Git repositories to specify intentionally untracked files that Git should ignore. 
+# If you are not using git, you can delete this file. For more information see: https://git-scm.com/docs/gitignore
+# For useful gitignore templates see: https://github.com/github/gitignore
+
+# Salesforce cache
+.sf/
+.sfdx/
+.localdevserver/
+deploy-options.json
+
+# LWC VSCode autocomplete
+**/lwc/jsconfig.json
+
+# LWC Jest coverage reports
+coverage/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+
+# ApexPMD cache
+.pmdCache
+
+# Eslint cache
+.eslintcache
+
+# MacOS system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Local environment variables
+.env
+
+# Python Salesforce Functions
+**/__pycache__/
+**/.venv/
+**/venv/

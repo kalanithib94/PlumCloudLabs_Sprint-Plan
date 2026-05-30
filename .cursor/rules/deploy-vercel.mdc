@@ -1,0 +1,39 @@
+---
+description: Git + Vercel production deploy — only after user validates and asks
+alwaysApply: true
+---
+
+# Deploy — local first, production on approval
+
+## Default: local only
+
+- Day-to-day work stays on the machine: `python -m http.server 8080` → `http://localhost:8080/planner/index.html`
+- **Do not** commit, push, or run Vercel deploy unless the user explicitly asks to deploy / ship / push to production / update Vercel.
+
+## Production path (when user asks to deploy)
+
+1. Run tests: `node planner/.tests/run-tests.js` (must pass).
+2. User validates in the browser locally.
+3. Run: `powershell -ExecutionPolicy Bypass -File scripts/deploy-to-vercel.ps1`  
+   — or commit **only** deployable paths and `git push origin main` if the user asked you to commit deploy changes.
+
+## What goes to Git / Vercel
+
+| Deploy | Keep local only |
+|--------|-----------------|
+| `planner/**` (app) | `conversations/` |
+| `vercel.json` | `*.csv`, generated `sprint-*.html` |
+| `README.planner.md` | `force-app/`, SFDC config |
+| `scripts/deploy-to-vercel.ps1` | `.cursor/hooks/.user-buffer.txt` |
+| `.cursor/rules/*.mdc` | Salesforce `package.json`, husky, etc. |
+
+## Vercel
+
+- Static site; `outputDirectory` = `planner` (see root `vercel.json`).
+- Production URL serves `/` = `index.html` (not `/planner/index.html`).
+- Branch **main** → production (connect repo once in Vercel dashboard).
+
+## Commits
+
+- Deploy commits: concise message focused on why (e.g. "Ship multi-team tabs and sticky action bar").
+- Never commit secrets (`.env`, credentials).

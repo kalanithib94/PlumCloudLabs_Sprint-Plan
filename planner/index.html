@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>PLUM CLOUD LABS — Sprint Plan</title>
+  <link rel="stylesheet" href="styles.css?v=6" />
+</head>
+<body>
+  <div class="app">
+    <div class="app-brand">
+      <p class="brand-kicker">PLUM CLOUD LABS</p>
+      <h1 class="brand-title">Sprint Plan</h1>
+      <p class="subtitle">Each team lead picks their tab — plans are saved separately in this browser.</p>
+    </div>
+
+    <nav class="company-tabs" id="company-tabs" role="tablist" aria-label="Company team"></nav>
+
+    <header class="app-header">
+      <div>
+        <h2 id="page-title">EE — new sprint</h2>
+        <p class="subtitle" id="sprint-subtitle">Fill in sprint dates and assignments below.</p>
+      </div>
+      <div class="metric-strip" id="metric-strip"></div>
+    </header>
+
+      <section class="card">
+        <div class="card-h">
+          <span class="title">Sprint Header</span>
+          <span class="summary-pill working-days-pill" title="Click the number to override (e.g. for public holidays or half-days). Clear it to revert to auto.">
+            <input id="sprint-workingdays" type="number" min="0" step="0.5" />
+            working days
+          </span>
+        </div>
+        <div class="card-b">
+          <div class="grid-4">
+            <label class="field">
+              <span>Sprint name</span>
+              <input id="sprint-name" class="text" type="text" placeholder="Sprint 04 — Release Plan" />
+            </label>
+            <label class="field">
+              <span>Number</span>
+              <input id="sprint-number" class="num" type="text" inputmode="numeric" placeholder="4" />
+            </label>
+            <label class="field">
+              <span>Start date</span>
+              <input id="sprint-start" class="date" type="date" />
+            </label>
+            <label class="field">
+              <span>End date</span>
+              <input id="sprint-end" class="date" type="date" />
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-h">
+          <span class="title">Team</span>
+          <button class="btn small" data-add="team">+ Add member</button>
+        </div>
+        <div class="card-b dense">
+          <table class="data editable" id="team-table">
+            <thead>
+              <tr>
+                <th style="width: 30%">Name</th>
+                <th class="cen" style="width: 14%">Leave days</th>
+                <th class="cen" style="width: 14%">Alloc %</th>
+                <th class="num" style="width: 16%">Available hours</th>
+                <th>Notes</th>
+                <th style="width: 40px"></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <p class="hint">Available hours = (working days − leave days) × 8 × alloc % / 100.</p>
+        </div>
+      </section>
+
+      <div class="actions-dock" id="actions-dock">
+        <div class="actions-bar">
+          <button id="btn-clear" class="btn ghost" title="Reset this team's plan and saved sprints">Clear</button>
+          <button id="btn-paste-json" class="btn ghost">Paste JSON from Cursor</button>
+          <button id="btn-import-csv" class="btn ghost" title="Import a Jira CSV — auto-fills per-person assignments">Import CSV</button>
+          <button id="btn-import-html" class="btn ghost" title="Load a previously downloaded sprint HTML back into the planner to edit and re-download">Import HTML</button>
+          <input id="html-file" type="file" accept=".html,text/html" hidden />
+          <button id="btn-save" class="btn">Save</button>
+          <span class="actions-spacer"></span>
+          <button id="btn-feasibility" class="btn">Run feasibility check</button>
+          <button id="btn-download" class="btn">Download HTML</button>
+          <button id="btn-preview" class="btn primary">Preview</button>
+        </div>
+        <div id="saved-bar" class="saved-bar" hidden>
+          <span class="saved-bar-label">Saved sprints:</span>
+          <div id="saved-list" class="saved-bar-list"></div>
+        </div>
+      </div>
+
+      <section class="card">
+        <div class="card-h">
+          <span class="title">Brain dump</span>
+          <div class="card-h-actions">
+            <button class="btn small mic" data-mic-for="brain-dump">Mic</button>
+            <button id="btn-copy-prompt" class="btn small" title="Copy a Cursor-ready prompt with your current plan and notes. Paste into Cursor chat to rearrange (e.g. move a JIRA to shared).">Copy Cursor prompt</button>
+          </div>
+        </div>
+        <div class="card-b">
+          <textarea id="brain-dump" class="cell" rows="5" placeholder="After CSV import, describe changes here — e.g. 'V2-8748 Review Test Scripts is shared between Piyush Pandey and Manupriya, split 32h each.'"></textarea>
+          <p class="hint">Notes travel with the sprint and appear in the downloaded HTML. After import, type what to rearrange here, click <strong>Copy Cursor prompt</strong> (includes your full plan), paste into Cursor, then <strong>Paste JSON from Cursor</strong> in the sticky bar above.</p>
+        </div>
+      </section>
+
+      <section class="feasibility">
+        <div class="feasibility-bars" id="feasibility-pills"></div>
+      </section>
+
+      <section class="card structure-card">
+        <div class="card-h">
+          <span class="title">Sprint structure</span>
+          <span class="hint inline" id="structure-hint">Pick how this sprint is organised</span>
+        </div>
+        <div class="card-b">
+          <nav class="tabs" role="tablist" aria-label="Sprint structure">
+            <button class="tab" data-tab="phases" role="tab" aria-selected="false">
+              <span class="tab-title">Phases</span>
+              <span class="tab-sub">phase-by-phase, multiple people per phase</span>
+            </button>
+            <button class="tab active" data-tab="perPerson" role="tab" aria-selected="true">
+              <span class="tab-title">Per-Person</span>
+              <span class="tab-sub">one card per teammate with their own JIRAs</span>
+            </button>
+          </nav>
+        </div>
+      </section>
+
+      <section class="panel" data-style="phases">
+        <div id="phase-cards" class="stack"></div>
+        <div>
+          <button class="btn primary" data-add="phase">+ Add phase</button>
+        </div>
+      </section>
+
+      <section class="panel active" data-style="perPerson">
+        <div class="card">
+          <div class="card-h">
+            <span class="title">Shared JIRAs</span>
+            <span class="hint inline">Split hours unevenly per person — or click Auto-split for equal.</span>
+          </div>
+          <div class="card-b">
+            <div id="shared-list" class="stack"></div>
+            <button class="add-row-btn" data-add="shared">+ Add shared JIRA</button>
+          </div>
+        </div>
+
+        <div id="person-cards" class="stack"></div>
+      </section>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <input id="csv-file" type="file" accept=".csv,text/csv" hidden />
+
+  <div id="csv-modal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-dialog modal-dialog-wide" role="dialog" aria-labelledby="csv-modal-title">
+      <div class="modal-head">
+        <h2 id="csv-modal-title">Import Jira CSV</h2>
+        <button class="row-del" data-close-modal title="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="hint">Per-person only. Each CSV row becomes one assignment under the matching teammate's card. We pre-fill the mapping from common Jira column names — adjust below if needed.</p>
+        <div class="csv-file-line">
+          <span id="csv-filename" class="muted">No file selected</span>
+          <span class="muted">·</span>
+          <span id="csv-stats" class="muted"></span>
+          <span class="actions-spacer"></span>
+          <button id="btn-pick-another" class="btn small ghost">Pick a different file</button>
+        </div>
+        <div class="csv-mapping-grid">
+          <label class="field">
+            <span>Issue key column</span>
+            <select id="map-key" class="cell"></select>
+          </label>
+          <label class="field">
+            <span>Summary column</span>
+            <select id="map-summary" class="cell"></select>
+          </label>
+          <label class="field">
+            <span>Assignee column <small class="hint inline">(required)</small></span>
+            <select id="map-assignee" class="cell"></select>
+          </label>
+          <label class="field">
+            <span>Estimate column <small class="hint inline">(required)</small></span>
+            <select id="map-estimate" class="cell"></select>
+          </label>
+          <label class="field">
+            <span>Estimate unit</span>
+            <select id="map-estimate-unit" class="cell">
+              <option value="auto">Auto-detect (seconds vs hours)</option>
+              <option value="hours">Hours (e.g. "8", "1d 4h", "30m")</option>
+              <option value="seconds">Seconds (Jira default for "Original Estimate")</option>
+              <option value="storypoints">Story points (× hours per point)</option>
+            </select>
+          </label>
+          <label class="field" id="sp-hours-field" hidden>
+            <span>Hours per story point</span>
+            <input id="map-sp-hours" type="number" min="0" step="0.5" value="8" class="cell" />
+          </label>
+          <label class="field">
+            <span>Start date column <small class="hint inline">(optional)</small></span>
+            <select id="map-start" class="cell"></select>
+          </label>
+          <label class="field">
+            <span>Due/end date column <small class="hint inline">(optional)</small></span>
+            <select id="map-end" class="cell"></select>
+          </label>
+          <label class="field">
+            <span>Mode</span>
+            <select id="map-mode" class="cell">
+              <option value="append">Append — add rows to existing cards</option>
+              <option value="replace">Replace — wipe existing assignments first</option>
+            </select>
+          </label>
+        </div>
+        <div id="csv-remap-wrap" class="csv-remap-wrap" hidden>
+          <div class="csv-remap-head">
+            <strong>Remap unmatched assignees</strong>
+            <span class="muted">These names from the CSV don't match anyone on the team. Map each to a teammate, add as a new member, or skip those rows.</span>
+          </div>
+          <div id="csv-remap-list" class="csv-remap-list"></div>
+        </div>
+        <div class="csv-preview-wrap">
+          <div class="csv-preview-head">
+            <strong>Preview</strong>
+            <span id="csv-preview-stats" class="muted"></span>
+          </div>
+          <div class="csv-preview-table-wrap">
+            <table id="csv-preview-table" class="data">
+              <thead><tr><th>JIRA</th><th class="cen">Assignee</th><th class="cen">Match</th><th class="num">Hours</th><th class="cen">Start</th><th class="cen">End</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="csv-error" class="json-error" hidden></div>
+      </div>
+      <div class="modal-foot">
+        <span id="csv-summary" class="muted"></span>
+        <span class="actions-spacer"></span>
+        <button class="btn ghost" data-close-modal>Cancel</button>
+        <button id="btn-apply-csv" class="btn primary" disabled>Apply import</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="json-modal" class="modal" hidden aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-dialog" role="dialog" aria-labelledby="json-modal-title">
+      <div class="modal-head">
+        <h2 id="json-modal-title">Paste JSON from Cursor</h2>
+        <button class="row-del" data-close-modal title="Close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="hint">Paste the JSON Cursor replied with. It will replace the current sprint's structure (team, phases, shared JIRAs, etc.). Your brain dump is preserved unless the JSON includes a non-empty <code>brainDump</code>.</p>
+        <textarea id="json-input" class="cell" rows="14" placeholder='{ "sprint": { ... }, "style": "phases", "team": [ ... ], ... }'></textarea>
+        <div id="json-error" class="json-error" hidden></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn ghost" data-close-modal>Cancel</button>
+        <button id="btn-apply-json" class="btn primary">Apply JSON</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="vendor/papaparse.min.js?v=7"></script>
+  <script src="generator.js?v=7"></script>
+  <script src="app.js?v=7"></script>
+</body>
+</html>

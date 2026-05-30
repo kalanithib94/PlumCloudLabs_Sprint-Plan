@@ -1,0 +1,13 @@
+Issue key,Summary,Assignee,Σ Original Estimate,Original Estimate,Start date,Due Date,Status,Story Points
+SFDC-451,Cache layer rewrite,Piyush Sharma,86400,86400,2026-06-29,2026-07-02,In Progress,5
+SFDC-452,Cache layer rewrite — subtask: benchmark,K7,100800,100800,2026-06-29,2026-07-02,Open,3
+SFDC-303,Pagination & filter rewrite,Ramesh Iyer,144000,144000,2026-06-29,2026-07-03,Open,8
+SFDC-77,Automation suite expansion,karthick.r,115200,115200,2026-06-29,2026-07-03,Open,6
+SFDC-89,Sync-up and design doc,Piyush Sharma,43200,43200,2026-07-03,2026-07-03,Open,2
+SFDC-200,Memory leak in worker pool,Piyush Sharma,57600,57600,2026-07-06,2026-07-07,Open,3
+SFDC-201,Race condition fix,K7,57600,57600,2026-07-03,2026-07-06,Open,3
+SFDC-12,OpenAPI spec refresh,Ramesh Iyer,28800,28800,2026-07-06,2026-07-06,Open,1
+SFDC-99,Edge-case test pass,Jeevan,57600,57600,2026-07-01,2026-07-03,Open,2
+SFDC-22,Quarterly board prep,Master Babu,57600,57600,2026-06-29,2026-07-02,Open,2
+SFDC-RELEASE,Sprint 05 release notes,Master Babu,43200,43200,2026-07-09,2026-07-10,Open,1
+SFDC-GHOST,Ghost ticket nobody owns,Random Person,3600,3600,,,,1
