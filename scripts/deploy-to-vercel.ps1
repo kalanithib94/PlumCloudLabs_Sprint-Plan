@@ -32,6 +32,7 @@ if ($confirm -ne "yes") {
 
 $paths = @(
   "vercel.json",
+  ".vercelignore",
   "planner",
   "README.planner.md",
   "scripts/deploy-to-vercel.ps1",

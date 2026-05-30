@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="light" />
   <title>PLUM CLOUD LABS — Sprint Plan</title>
-  <link rel="stylesheet" href="styles.css?v=6" />
+  <link rel="stylesheet" href="styles.css?v=8" />
 </head>
 <body>
   <div class="app">
@@ -16,6 +16,44 @@
     </div>
 
     <nav class="company-tabs" id="company-tabs" role="tablist" aria-label="Company team"></nav>
+
+    <section class="card guide-card">
+      <details class="guide-details">
+        <summary class="guide-summary">How it works — Jira → CSV → brain dump → plan</summary>
+        <div class="card-b guide-body">
+          <ol class="guide-steps">
+            <li><strong>Pick your team tab</strong> above (Dev, Marketing, EE, Hynoyo). Plans save separately in this browser.</li>
+            <li><strong>Fill sprint dates</strong> and check the team roster. Adjust leave days and alloc % if needed.</li>
+            <li><strong>Import CSV</strong> from Jira (sticky bar). Map columns — use <strong>Assignee-V2</strong>, not the manager-echo Assignee column.</li>
+            <li><strong>Brain dump</strong> any rearrangements (shared JIRAs, splits, removals) in plain English — see format below.</li>
+            <li><strong>Copy Cursor prompt</strong> → paste into Cursor chat → <strong>Paste JSON from Cursor</strong> in the sticky bar.</li>
+            <li><strong>Save</strong> and <strong>Download HTML</strong> for the release plan. Use <strong>Import HTML</strong> later to edit and re-download.</li>
+          </ol>
+
+          <div class="guide-block">
+            <h3>Step 1 — Ask ROVO in Jira (exact prompt)</h3>
+            <p class="hint">In Jira, open ROVO and paste this. Change the epic name for your sprint (example uses EE).</p>
+            <div class="prompt-box">
+              <pre id="rovo-prompt" class="prompt-text">List all child items of the epic "EE Sprint 04" as a table with these columns: Key, Summary, Type, Status, Priority, Assignee, Reporter, Due Date, Created, Updated, Assignee-V2, Co-Assignee-V2, Story Point Estimate</pre>
+              <button type="button" id="btn-copy-rovo" class="btn small">Copy ROVO prompt</button>
+            </div>
+            <p class="hint">Export the table ROVO returns as CSV, then use <strong>Import CSV</strong> in the sticky bar.</p>
+          </div>
+
+          <div class="guide-block">
+            <h3>Step 2 — Brain dump format (after CSV import)</h3>
+            <p class="hint">One change per line or paragraph. Use JIRA keys. Say shared vs personal, hours per person, and what to remove from someone’s list.</p>
+            <pre class="example-text">V2-8748 Review Test Scripts is shared, not personal.
+Split 64h between Piyush Pandey (24h) and Ramesh Mandava (40h).
+
+V2-8749 — Vusion Hypercare
+Split 30h equally between Jeevan and kalanithi
+Remove V2-8748 from Piyush's personal list.</pre>
+            <p class="hint">Then click <strong>Copy Cursor prompt</strong> on the Brain dump card (includes your plan + these notes) → paste into Cursor → apply the JSON it returns.</p>
+          </div>
+        </div>
+      </details>
+    </section>
 
     <header class="app-header">
       <div>
@@ -106,8 +144,8 @@
           </div>
         </div>
         <div class="card-b">
-          <textarea id="brain-dump" class="cell" rows="5" placeholder="After CSV import, describe changes here — e.g. 'V2-8748 Review Test Scripts is shared between Piyush Pandey and Manupriya, split 32h each.'"></textarea>
-          <p class="hint">Notes travel with the sprint and appear in the downloaded HTML. After import, type what to rearrange here, click <strong>Copy Cursor prompt</strong> (includes your full plan), paste into Cursor, then <strong>Paste JSON from Cursor</strong> in the sticky bar above.</p>
+          <textarea id="brain-dump" class="cell" rows="5" placeholder="Example: V2-8748 is shared — split 64h between Piyush Pandey (24h) and Ramesh Mandava (40h). Remove V2-8748 from Piyush's personal list."></textarea>
+          <p class="hint">See <strong>How it works</strong> above for the ROVO export prompt and brain-dump format. Notes travel with the sprint and appear in downloaded HTML. After typing changes: <strong>Copy Cursor prompt</strong> → Cursor chat → <strong>Paste JSON from Cursor</strong> in the sticky bar.</p>
         </div>
       </section>
 
@@ -272,8 +310,8 @@
     </div>
   </div>
 
-  <script src="vendor/papaparse.min.js?v=7"></script>
-  <script src="generator.js?v=7"></script>
-  <script src="app.js?v=7"></script>
+  <script src="vendor/papaparse.min.js?v=8"></script>
+  <script src="generator.js?v=8"></script>
+  <script src="app.js?v=8"></script>
 </body>
 </html>

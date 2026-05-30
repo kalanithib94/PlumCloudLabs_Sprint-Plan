@@ -2098,6 +2098,15 @@
     });
 
     $("#btn-copy-prompt").addEventListener("click", copyCursorPrompt);
+    $("#btn-copy-rovo").addEventListener("click", async () => {
+      const text = ($("#rovo-prompt") && $("#rovo-prompt").textContent) || "";
+      try {
+        await navigator.clipboard.writeText(text.trim());
+        toast("ROVO prompt copied. Paste into Jira ROVO.", "success");
+      } catch (_) {
+        toast("Copy failed — select the prompt text manually.", "error");
+      }
+    });
     $("#btn-paste-json").addEventListener("click", openJsonModal);
     $("#btn-apply-json").addEventListener("click", applyJsonFromModal);
     $("#btn-import-csv").addEventListener("click", openCsvPicker);

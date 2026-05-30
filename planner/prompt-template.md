@@ -5,6 +5,23 @@ it copies this template with **your current plan already filled in** plus any
 notes you typed. Paste it into Cursor chat, hit Send, then take the JSON Cursor
 replies with and click **Paste JSON from Cursor** in the sticky action bar (above Brain dump).
 
+**Jira data:** In ROVO, ask (change the epic name per sprint):
+
+`List all child items of the epic "EE Sprint 04" as a table with these columns: Key, Summary, Type, Status, Priority, Assignee, Reporter, Due Date, Created, Updated, Assignee-V2, Co-Assignee-V2, Story Point Estimate`
+
+Export as CSV → **Import CSV** in the planner. Map **Assignee-V2** for matching.
+
+**Brain dump format** (plain English, one change at a time):
+
+```
+V2-8748 Review Test Scripts is shared, not personal.
+Split 64h between Piyush Pandey (24h) and Ramesh Mandava (40h).
+
+V2-8749 — Vusion Hypercare
+Split 30h equally between Jeevan and kalanithi
+Remove V2-8748 from Piyush's personal list.
+```
+
 ---
 
 You are a sprint planning assistant. You receive the planner's **current state**
