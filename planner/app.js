@@ -452,12 +452,19 @@
     if (cell && state.team[teamIdx]) cell.textContent = fmt(availableHours(state.team[teamIdx])) + "h";
   }
 
+  function memberHasSharedSplit(name) {
+    return state.sharedJiras.some((s) => {
+      if (s.splits && Object.prototype.hasOwnProperty.call(s.splits, name)) return true;
+      return Array.isArray(s.memberNames) && s.memberNames.includes(name);
+    });
+  }
+
   function removeMember(i) {
     const name = state.team[i].name;
     const hasWork =
       (state.assignments[name] && state.assignments[name].length) ||
       state.phases.some((p) => p.assignments.some((a) => a.personName === name)) ||
-      state.sharedJiras.some((s) => s.memberNames.includes(name));
+      memberHasSharedSplit(name);
     if (hasWork && !confirm("Remove " + name + "? Their assignments will also be removed.")) return;
     state.team.splice(i, 1);
     delete state.assignments[name];
