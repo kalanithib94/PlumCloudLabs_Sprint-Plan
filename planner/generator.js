@@ -265,14 +265,6 @@
     }).join("");
   }
 
-  function renderBrainDump(state) {
-    if (!state.brainDump || !state.brainDump.trim()) return "";
-    return `<div class="card brain">
-      <div class="card-h"><span class="title">Brain dump</span></div>
-      <div class="card-b"><pre>${escapeHtml(state.brainDump)}</pre></div>
-    </div>`;
-  }
-
   const STATE_SCRIPT_ID = "sprint-planner-state";
 
   function serializeStateForEmbed(input) {
@@ -298,7 +290,6 @@
         workingDaysOverride: state.sprint.workingDaysOverride ?? "",
       },
       style: state.style,
-      brainDump: state.brainDump || "",
       team: state.team.map((m) => ({
         name: m.name,
         leaveDays: Number(m.leaveDays) || 0,
@@ -460,9 +451,6 @@
       if (rows.length) assignments[name] = rows;
     });
 
-    const brainEl = doc.querySelector(".card.brain pre");
-    const brainDump = brainEl ? brainEl.textContent : "";
-
     if (!team.length && !Object.keys(assignments).length && !phases.length) return null;
 
     return {
@@ -474,7 +462,6 @@
         workingDaysOverride,
       },
       style,
-      brainDump,
       team,
       phases,
       sharedJiras,
@@ -554,7 +541,6 @@
     .card { background: var(--surface); border: 1px solid var(--stroke); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
     .card-h { display:flex; justify-content:space-between; padding:10px 14px; border-bottom:1px solid var(--stroke); background:var(--surface-2); font-weight:600; font-size:12px; color:var(--text); }
     .card-b { padding: 12px 14px; }
-    .card.brain pre { white-space: pre-wrap; word-break: break-word; margin: 0; font-family: var(--font); color: var(--muted); }
     .metric-strip { display:flex; gap:8px; flex-wrap:wrap; }
     .metric-pill { background: var(--surface); border:1px solid var(--stroke); border-radius:999px; padding:6px 14px; font-size:12px; color: var(--text); box-shadow: var(--shadow); }
     .metric-pill strong { color: var(--accent-strong); margin-right: 4px; }
@@ -629,8 +615,6 @@
     </section>
 
     ${styleSection}
-
-    ${renderBrainDump(state)}
 
     <p class="footer">${escapeHtml(title)} — PLUM CLOUD LABS Sprint Plan · generated ${escapeHtml(generated)}</p>
   </div>
