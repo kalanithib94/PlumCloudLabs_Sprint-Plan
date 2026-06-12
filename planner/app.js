@@ -1555,6 +1555,33 @@
     return t === "" || t === "-" || t === "—" || t === "–" || t === "—" || t.toLowerCase() === "none" || t === "N/A";
   }
 
+  const ISSUE_KEY_RE = /^([A-Z][A-Z0-9]*-\d+)/i;
+  const JIRA_STATUS_SUFFIX_RE = /\s*(To-Be-Done|In Progress|Done|Open|Closed|Blocked)\s*$/i;
+
+  function parseBareIssueKey(raw) {
+    const m = String(raw || "").trim().match(ISSUE_KEY_RE);
+    return m ? m[1] : null;
+  }
+
+  // ROVO/Jira CSVs often embed "KEY: SummaryStatus" in the Key column while Summary
+  // repeats the title — joining both verbatim duplicates the name.
+  function buildJiraLabel(rawKey, rawSummary) {
+    const keyStr = String(rawKey || "").trim();
+    const summary = String(rawSummary || "").trim();
+    if (!keyStr && !summary) return "(no title)";
+    if (!keyStr) return summary;
+    const bare = parseBareIssueKey(keyStr);
+    if (bare && summary) return bare + " — " + summary;
+    if (bare && !summary) {
+      let rest = keyStr.slice(bare.length).replace(/^[\s:]+/, "").trim();
+      rest = rest.replace(JIRA_STATUS_SUFFIX_RE, "").trim();
+      return rest ? bare + " — " + rest : bare;
+    }
+    if (!summary) return keyStr;
+    if (keyStr.includes(summary)) return keyStr;
+    return keyStr + " — " + summary;
+  }
+
   function parseEstimate(value, unit, spHours) {
     if (isBlankToken(value)) return 0;
     const raw = String(value).trim();
@@ -1805,7 +1832,7 @@
       const start    = parseDateLoose(get(row, mapping.start));
       const end      = parseDateLoose(get(row, mapping.end));
       const hours    = parseEstimate(estRaw, mapping.estimateUnit, mapping.spHours);
-      const jiraText = key && summary ? key + " — " + summary : (key || summary || "(no title)");
+      const jiraText = buildJiraLabel(key, summary);
       // Resolution order: explicit user alias (incl. "" = skip) > fuzzy match
       let matched = null;
       if (rawAss) {
